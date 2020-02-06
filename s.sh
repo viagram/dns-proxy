@@ -156,8 +156,8 @@ if [[ "$(Check_OS)" == "centos7" || "$(Check_OS)" == "centos8" ]]; then
 	! command -v yum-config-manager >/dev/null 2>&1 && yum install -y yum-utils
 	[[ x"$(yum-config-manager epel | grep -w enabled | awk '{print $3}')" != x"True" ]] && yum-config-manager --enable epel
 	yum groupinstall -y "Development Tools"
-	[[ -f /etc/yum.repos.d/elrepo.repo ]] && yum --enablerepo=elrepo-kernel -y install kernel-ml-devel kernel-ml-headers || yum install -y jq kernel-devel kernel-headers
-	yum install -y git curl tar wget net-tools dnsmasq autoconf automake make gettext-devel libev-devel pcre-devel perl pkgconfig rpm-build udns-devel openssl-devel gcc bind-utils
+	[[ -f /etc/yum.repos.d/elrepo.repo ]] && yum --enablerepo=elrepo-kernel -y install kernel-ml-devel kernel-ml-headers || yum install -y kernel-devel kernel-headers
+	yum install -y jq git curl tar wget net-tools dnsmasq autoconf automake make gettext-devel libev-devel pcre-devel perl pkgconfig rpm-build udns-devel openssl-devel gcc bind-utils
 elif [[ "$(Check_OS)" == "ubuntu" || "$(Check_OS)" == "debian" ]]; then
 	apt-get -y install curl wget git tar dnsmasq net-tools make jq build-essential autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext libev-dev libpcre3-dev libudns-dev pkg-config fakeroot devscripts gcc dnsutils
 fi
