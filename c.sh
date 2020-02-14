@@ -18,7 +18,9 @@ function install(){
 	zsph="/usr/bin/dnsctl"
 	myph="$(dirname $(readlink -f $0))/$(basename $0)"
 	if [[ ${myph} != ${zsph} ]]; then
-		cp -rf ${myph} ${zsph} && chmod +x ${zsph} && rm -rf ${myph}
+		cp -rf ${myph} ${zsph} >/dev/null 2>&1 && \
+		chmod +x ${zsph} && \
+		rm -rf ${myph}
 	fi
 }
 
