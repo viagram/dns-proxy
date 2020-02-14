@@ -18,6 +18,7 @@ function install(){
 	zsph="/usr/bin/dnsctl"
 	myph="$(dirname $(readlink -f $0))/$(basename $0)"
 	if [[ -f ${myph} ]]; then
+		echo -en "\033[32m 安装路径: ${zsph}\033[0m"
 		if [[ ${myph} != ${zsph} ]]; then
 			cp -rf ${myph} ${zsph}
 			chmod +x ${zsph}
