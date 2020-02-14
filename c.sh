@@ -17,14 +17,16 @@ function Check_OS(){
 function install(){
 	zsph="/usr/bin/dnsctl"
 	myph="$(dirname $(readlink -f $0))/$(basename $0)"
-	if [[ ${myph} != ${zsph} ]]; then
-		[[ -f ${myph} ]] && \
-		cp -rf ${myph} ${zsph} && \
-		chmod +x ${zsph} && \
-		rm -rf ${myph}
+	if [[ -f ${myph} ]]; then
+		if [[ ${myph} != ${zsph} ]]; then
+			cp -rf ${myph} ${zsph}
+			chmod +x ${zsph}
+			rm -rf ${myph}
+		fi
 	fi
 }
 
+##########################################################################################
 install
 [[ "$(Check_OS)" == "centos6" || "$(Check_OS)" == "centos7" ]] && upbash=yum
 [[ "$(Check_OS)" == "centos8" || "$(Check_OS)" == "fedora" ]] && upbash=dnf
