@@ -28,6 +28,7 @@ function install(){
 }
 
 ##########################################################################################
+echo -en "\033[32m 开始工作\033[0m"
 install
 [[ "$(Check_OS)" == "centos6" || "$(Check_OS)" == "centos7" ]] && upbash=yum
 [[ "$(Check_OS)" == "centos8" || "$(Check_OS)" == "fedora" ]] && upbash=dnf
