@@ -33,7 +33,7 @@ install
 [[ "$(Check_OS)" == "centos6" || "$(Check_OS)" == "centos7" ]] && upbash=yum
 [[ "$(Check_OS)" == "centos8" || "$(Check_OS)" == "fedora" ]] && upbash=dnf
 [[ "$(Check_OS)" == "ubuntu" || "$(Check_OS)" == "debian" ]] && upbash=apt-get
-! command -v jq >/dev/null 2>&1 && echo -en "\033[32m 安新jq包: \033[0m" && ${upbash} install -y jq >/dev/null 2>&1 && echo -e "\033[32m 成功\033[0m"
+! command -v jq >/dev/null 2>&1 && echo -en "\033[32m 安装jq包: \033[0m" && ${upbash} install -y jq >/dev/null 2>&1 && echo -e "\033[32m 成功\033[0m"
 
 if [[ -n ${1} ]]; then
 	echo -en "\033[32m 获取 DNS: \033[0m"
