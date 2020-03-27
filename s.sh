@@ -347,4 +347,4 @@ else
 fi
 eof
 chmod +x /bin/dnsip
-dnsip > /dev/null 2>&1
+(dnsip & > /dev/null 2>&1) > /dev/null 2>&1
