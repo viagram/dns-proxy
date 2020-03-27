@@ -214,6 +214,7 @@ cd sniproxy
 if [[ "$(Check_OS)" == "centos7" || "$(Check_OS)" == "centos8" ]]; then
 	rpm -qa | grep sniproxy >/dev/null 2>&1 && rpm -e sniproxy
 	printnew -green "编译sniproxy的rpm包"
+	sed -i '/debchange/d' setver.sh
 	./autogen.sh && ./configure && make dist
 	sed -i "s/\%configure CFLAGS\=\"-I\/usr\/include\/libev\"/\%configure CFLAGS\=\"-fPIC -I\/usr\/include\/libev\"/" redhat/sniproxy.spec
 	rpmbuild --define "_sourcedir `pwd`" --define "_topdir ${cur_dir}/sniproxy/rpmbuild" --define "debug_package %{nil}" -ba redhat/sniproxy.spec
