@@ -136,6 +136,7 @@ function clear_tmp(){
 echo ${1} | egrep -io '^(update|up)$' >/dev/null 2>&1 && update=true || update=false
 if ${update}; then
 	printnew -green -a "更新 dnsmasq 和 sniproxy"
+	sleep 1
 else
 	printnew -green -a "检测端口占用"
 	for aport in 82 443 53; do
