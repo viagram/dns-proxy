@@ -152,15 +152,18 @@ cd ${cur_dir}
 
 printnew "\r\c"
 printnew -green "安装依赖组件包                                       "
+[[ "$(Check_OS)" == "centos6" || "$(Check_OS)" == "centos7" ]] && upbash=yum
+[[ "$(Check_OS)" == "centos8" || "$(Check_OS)" == "fedora" ]] && upbash=dnf
+[[ "$(Check_OS)" == "ubuntu" || "$(Check_OS)" == "debian" ]] && upbash=apt-get
 if [[ "$(Check_OS)" == "centos7" || "$(Check_OS)" == "centos8" ]]; then
-	[[ ! -f /etc/yum.repos.d/epel.repo ]] && yum install -y epel-release
-	! command -v yum-config-manager >/dev/null 2>&1 && yum install -y yum-utils
+	[[ ! -f /etc/yum.repos.d/epel.repo ]] && ${upbash} install -y epel-release
+	! command -v yum-config-manager >/dev/null 2>&1 && ${upbash} install -y yum-utils
 	[[ x"$(yum-config-manager epel | grep -w enabled | awk '{print $3}')" != x"True" ]] && yum-config-manager --enable epel
-	yum groupinstall -y "Development Tools"
-	[[ -f /etc/yum.repos.d/elrepo.repo ]] && yum --enablerepo=elrepo-kernel -y install kernel-ml-devel kernel-ml-headers || yum install -y kernel-devel kernel-headers
-	yum install -y jq git curl tar wget net-tools dnsmasq autoconf automake make gettext-devel libev-devel pcre-devel perl pkgconfig rpm-build udns-devel openssl-devel gcc bind-utils
+	${upbash} groupinstall -y "Development Tools"
+	[[ -f /etc/yum.repos.d/elrepo.repo ]] && ${upbash} --enablerepo=elrepo-kernel -y install kernel-ml-devel kernel-ml-headers || ${upbash} install -y kernel-devel kernel-headers
+	${upbash} install -y jq git curl tar wget net-tools dnsmasq autoconf automake make gettext-devel libev-devel pcre-devel perl pkgconfig rpm-build udns-devel openssl-devel gcc bind-utils
 elif [[ "$(Check_OS)" == "ubuntu" || "$(Check_OS)" == "debian" ]]; then
-	apt-get -y install curl wget git tar dnsmasq net-tools make jq build-essential autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext libev-dev libpcre3-dev libudns-dev pkg-config fakeroot devscripts gcc dnsutils
+	${upbash} -y install curl wget git tar dnsmasq net-tools make jq build-essential autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gettext libev-dev libpcre3-dev libudns-dev pkg-config fakeroot devscripts gcc dnsutils
 fi
 
 : <<'dnsmasq_tgz'
@@ -219,7 +222,7 @@ if [[ "$(Check_OS)" == "centos7" || "$(Check_OS)" == "centos8" ]]; then
 	./autogen.sh && ./configure && make dist
 	sed -i "s/\%configure CFLAGS\=\"-I\/usr\/include\/libev\"/\%configure CFLAGS\=\"-fPIC -I\/usr\/include\/libev\"/" redhat/sniproxy.spec
 	rpmbuild --define "_sourcedir `pwd`" --define "_topdir ${cur_dir}/sniproxy/rpmbuild" --define "debug_package %{nil}" -ba redhat/sniproxy.spec
-	yum -y install ${cur_dir}/sniproxy/rpmbuild/RPMS/x86_64/sniproxy-*.rpm
+	${upbash} -y install ${cur_dir}/sniproxy/rpmbuild/RPMS/x86_64/sniproxy-*.rpm
 	\cp -f redhat/sniproxy.init /etc/init.d/sniproxy && chmod +x /etc/init.d/sniproxy
 elif [[ "$(Check_OS)" == "ubuntu" || "$(Check_OS)" == "debian" ]]; then
 	dpkg -s sniproxy >/dev/null 2>&1 && dpkg -r sniproxy
