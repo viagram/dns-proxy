@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
+
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
 function Check_OS(){
-	Text=$(cat /etc/*-release)
-	if echo ${Text} | egrep -io "(centos[a-z ]*5|red[a-z ]*hat[a-z ]*5)" >/dev/null 2>&1; then echo centos5
-	elif echo ${Text} | egrep -io "(centos[a-z ]*6|red[a-z ]*hat[a-z ]*6)" >/dev/null 2>&1; then echo centos6
-	elif echo ${Text} | egrep -io "(centos[a-z ]*7|red[a-z ]*hat[a-z ]*7)" >/dev/null 2>&1; then echo centos7
-	elif echo ${Text} | egrep -io "(centos[a-z ]*8|red[a-z ]*hat[a-z ]*8)" >/dev/null 2>&1; then echo centos8
-	elif echo ${Text} | egrep -io "Fedora[a-z ]*[0-9]{1,2}" >/dev/null 2>&1; then echo fedora
-	elif echo ${Text} | egrep -io "debian[a-z /]*[0-9]{1,2}" >/dev/null 2>&1; then echo debian
-	elif echo ${Text} | egrep -io "ubuntu" >/dev/null 2>&1; then echo ubuntu
-	fi
+    Text=$(cat /etc/*-release)
+    if echo ${Text} | egrep -io "(centos[a-z ]*5|red[a-z ]*hat[a-z ]*5)" >/dev/null 2>&1; then echo centos5
+    elif echo ${Text} | egrep -io "(centos[a-z ]*6|red[a-z ]*hat[a-z ]*6)" >/dev/null 2>&1; then echo centos6
+    elif echo ${Text} | egrep -io "(centos[a-z ]*7|red[a-z ]*hat[a-z ]*7)" >/dev/null 2>&1; then echo centos7
+    elif echo ${Text} | egrep -io "(centos[a-z ]*8|red[a-z ]*hat[a-z ]*8)" >/dev/null 2>&1; then echo centos8
+    elif echo ${Text} | egrep -io "(Rocky[a-z ]*8|red[a-z ]*hat[a-z ]*8)" >/dev/null 2>&1; then echo rockylinux8
+    elif echo ${Text} | egrep -io "Fedora[a-z ]*[0-9]{1,2}" >/dev/null 2>&1; then echo fedora
+    elif echo ${Text} | egrep -io "debian[a-z /]*[0-9]{1,2}" >/dev/null 2>&1; then echo debian
+    elif echo ${Text} | egrep -io "ubuntu" >/dev/null 2>&1; then echo ubuntu
+   fi
 }
 
+
 function install(){
-	zsph="/usr/bin/dnsctl"
-	myph="$(dirname $(readlink -f $0))/$(basename $0)"
-	if [[ -f ${myph} ]]; then
-		if [[ ${myph} != ${zsph} ]]; then
-			echo -e "\033[32m 安装路径: ${zsph}\033[0m"
-			cp -rf ${myph} ${zsph}
-			chmod +x ${zsph}
-			rm -rf ${myph}
-		fi
-	fi
+    zsph="/usr/bin/dnsctl"
+    myph="$(dirname $(readlink -f $0))/$(basename $0)"
+    [[ ${myph} != ${zsph} ]] && {
+        echo -e "\033[32m 安装路径: ${zsph}\033[0m"
+        mv -rf ${myph} ${zsph}
+        chmod +x ${zsph}
+    }
 }
 
 ##########################################################################################
@@ -36,14 +36,14 @@ install
 ! command -v jq >/dev/null 2>&1 && echo -en "\033[32m 安装jq包: \033[0m" && ${upbash} install -y jq >/dev/null 2>&1 && echo -e "\033[32m 成功\033[0m"
 
 if [[ -n ${1} ]]; then
-	echo -en "\033[32m 获取 DNS: \033[0m"
-	dns=$(curl -skL https://dnsdian.com/api/dns.php -d "dns=${1}")
-	[[ -z ${dns} ]] && echo -e "\033[31m 失败.\033[0m" && exit 1
-	echo -e "\033[33m ${dns}\033[0m"
+    echo -en "\033[32m 获取 DNS: \033[0m"
+    dns=$(curl -skL https://dnsdian.com/api/dns.php -d "dns=${1}")
+    [[ -z ${dns} ]] && echo -e "\033[31m 失败.\033[0m" && exit 1
+    echo -e "\033[33m ${dns}\033[0m"
 else
-	echo -e "\033[32m 恢复 DNS: \033[33m8.8.8.8\033[0m"
-	echo -e "\033[32m 恢复 DNS: \033[33m1.1.1.1\033[0m"
-	dns='8.8.8.8\nnameserver 1.1.1.1'
+    echo -e "\033[32m 恢复 DNS: \033[33m8.8.8.8\033[0m"
+    echo -e "\033[32m 恢复 DNS: \033[33m1.1.1.1\033[0m"
+    dns='8.8.8.8\nnameserver 1.1.1.1'
 fi
 
 echo -en "\033[32m 设置 DNS: \033[0m"
