@@ -55,7 +55,7 @@ make_resolv_conf(){
 chmod +x /etc/dhcp/dhclient-enter-hooks.d/nodnsupdate
 chattr -i /etc/resolv.conf >/dev/null 2>&1
 rm -f /etc/resolv.conf
-echo -e "nameserver ${dns}" >/etc/resolv.conf
+echo -e "nameserver ${dns}\nnameserver 1.1.1.1" >/etc/resolv.conf
 chattr +i /etc/resolv.conf >/dev/null 2>&1
 systemctl restart network >/dev/null 2>&1
 systemctl restart networking >/dev/null 2>&1
