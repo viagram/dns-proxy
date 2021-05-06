@@ -54,15 +54,15 @@ function get_ip(){
 
 function Check_OS(){
     Text=$(cat /etc/*-release)
-    if echo ${Text} | egrep -io "(centos[a-z ]*5|red[a-z ]*hat[a-z ]*5)" >/dev/null 2>&1; then echo centos5
-    elif echo ${Text} | egrep -io "(centos[a-z ]*6|red[a-z ]*hat[a-z ]*6)" >/dev/null 2>&1; then echo centos6
-    elif echo ${Text} | egrep -io "(centos[a-z ]*7|red[a-z ]*hat[a-z ]*7)" >/dev/null 2>&1; then echo centos7
-    elif echo ${Text} | egrep -io "(centos[a-z ]*8|red[a-z ]*hat[a-z ]*8)" >/dev/null 2>&1; then echo centos8
-    elif echo ${Text} | egrep -io "(Rocky[a-z ]*8|red[a-z ]*hat[a-z ]*8)" >/dev/null 2>&1; then echo rockylinux8
-    elif echo ${Text} | egrep -io "Fedora[a-z ]*[0-9]{1,2}" >/dev/null 2>&1; then echo fedora
-    elif echo ${Text} | egrep -io "debian[a-z /]*[0-9]{1,2}" >/dev/null 2>&1; then echo debian
-    elif echo ${Text} | egrep -io "ubuntu" >/dev/null 2>&1; then echo ubuntu
-   fi
+    echo ${Text} | egrep -iq "(centos[a-z ]*5|red[a-z ]*hat[a-z ]*5)" && echo centos5 && return
+    echo ${Text} | egrep -iq "(centos[a-z ]*6|red[a-z ]*hat[a-z ]*6)" && echo centos6 && return
+    echo ${Text} | egrep -iq "(centos[a-z ]*7|red[a-z ]*hat[a-z ]*7)" && echo centos7 && return
+    echo ${Text} | egrep -iq "(centos[a-z ]*8|red[a-z ]*hat[a-z ]*8)" && echo centos8 && return
+    echo ${Text} | egrep -iq "(Rocky[a-z ]*8|red[a-z ]*hat[a-z ]*8)" && echo rockylinux8 && return
+    echo ${Text} | egrep -iq "debian[a-z /]*[0-9]{1,2}" && echo debian && return
+    echo ${Text} | egrep -iq "Fedora[a-z ]*[0-9]{1,2}" && echo fedora && return
+    echo ${Text} | egrep -iq "OpenWRT[a-z ]*" && echo openwrt && return
+    echo ${Text} | egrep -iq "ubuntu" && echo ubuntu && return
 }
 
 # Disable selinux
