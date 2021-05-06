@@ -22,7 +22,7 @@ function install(){
     myph="$(dirname $(readlink -f $0))/$(basename $0)"
     [[ ${myph} != ${zsph} ]] && {
         echo -e "\033[32m 安装路径: ${zsph}\033[0m"
-        mv -rf ${myph} ${zsph}
+        mv -f ${myph} ${zsph}
         chmod +x ${zsph}
     }
 }
