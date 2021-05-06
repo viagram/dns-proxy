@@ -40,6 +40,7 @@ if [[ -n ${1} ]]; then
     dns=$(curl -skL https://dnsdian.com/api/dns.php -d "dns=${1}")
     [[ -z ${dns} ]] && echo -e "\033[31m 失败.\033[0m" && exit 1
     echo -e "\033[33m ${dns}\033[0m"
+    dbs="${dns}\nnameserver 1.1.1.1"
 else
     echo -e "\033[32m 恢复 DNS: \033[33m8.8.8.8\033[0m"
     echo -e "\033[32m 恢复 DNS: \033[33m1.1.1.1\033[0m"
@@ -55,7 +56,7 @@ make_resolv_conf(){
 chmod +x /etc/dhcp/dhclient-enter-hooks.d/nodnsupdate
 chattr -i /etc/resolv.conf >/dev/null 2>&1
 rm -f /etc/resolv.conf
-echo -e "nameserver ${dns}\nnameserver 1.1.1.1" >/etc/resolv.conf
+echo -e "nameserver ${dns}" >/etc/resolv.conf
 chattr +i /etc/resolv.conf >/dev/null 2>&1
 systemctl restart network >/dev/null 2>&1
 systemctl restart networking >/dev/null 2>&1
