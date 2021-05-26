@@ -325,15 +325,23 @@ if [[ x${1} == 'xadd' || x${1} == 'xADD' ]]; then
     iplist=$(echo ${@} | egrep -o '((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])')
     if [[ -n ${iplist} ]]; then
         for ipaddr in ${iplist}; do
-            if ! firewall-cmd --list-rich-rules | egrep -io ${ipaddr} > /dev/null 2>&1; then
+            ! firewall-cmd --list-rich-rules | egrep -iq ${ipaddr} && {
                 echo -e "\033[32m 正在添加 \033[33m${ipaddr} \033[32m的规则 \033[0m"
+                #IPv4
                 firewall-cmd --permanent --add-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=tcp port=53 accept" > /dev/null 2>&1
                 firewall-cmd --permanent --add-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=udp port=53 accept" > /dev/null 2>&1
                 firewall-cmd --permanent --add-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=tcp port=80 accept" > /dev/null 2>&1
                 firewall-cmd --permanent --add-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=udp port=80 accept" > /dev/null 2>&1
                 firewall-cmd --permanent --add-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=tcp port=443 accept" > /dev/null 2>&1
                 firewall-cmd --permanent --add-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=udp port=443 accept" > /dev/null 2>&1
-            fi
+                #IPv6
+                #firewall-cmd --permanent --add-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=tcp port=53 accept" > /dev/null 2>&1
+                #firewall-cmd --permanent --add-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=udp port=53 accept" > /dev/null 2>&1
+                #firewall-cmd --permanent --add-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=tcp port=80 accept" > /dev/null 2>&1
+                #firewall-cmd --permanent --add-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=udp port=80 accept" > /dev/null 2>&1
+                #firewall-cmd --permanent --add-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=tcp port=443 accept" > /dev/null 2>&1
+                #firewall-cmd --permanent --add-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=udp port=443 accept" > /dev/null 2>&1
+            }
         done
             firewall-cmd --reload > /dev/null 2>&1
             #firewall-cmd --list-rich-rules
@@ -346,15 +354,23 @@ elif [[ x${1} == 'xDEL' || x${1} == 'xdel' ]]; then
     iplist=$(echo ${@} | egrep -o '((25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[0-1]?[0-9]?[0-9])')
     if [[ -n ${iplist} ]]; then
         for ipaddr in ${iplist}; do
-            if firewall-cmd --list-rich-rules | egrep -io ${ipaddr} > /dev/null 2>&1; then
+            firewall-cmd --list-rich-rules | egrep -iq ${ipaddr} && {
                 echo -e "\033[32m 正在删除 \033[33m${ipaddr} \033[32m的规则 \033[0m"
+                #IPv4
                 firewall-cmd --permanent --remove-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=tcp port=53 accept" > /dev/null 2>&1
                 firewall-cmd --permanent --remove-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=udp port=53 accept" > /dev/null 2>&1
                 firewall-cmd --permanent --remove-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=tcp port=80 accept" > /dev/null 2>&1
                 firewall-cmd --permanent --remove-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=udp port=80 accept" > /dev/null 2>&1
                 firewall-cmd --permanent --remove-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=tcp port=443 accept" > /dev/null 2>&1
                 firewall-cmd --permanent --remove-rich-rule="rule family=ipv4 source address=${ipaddr}/32 port protocol=udp port=443 accept" > /dev/null 2>&1
-            fi
+                #IPv6
+                #firewall-cmd --permanent --remove-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=tcp port=53 accept" > /dev/null 2>&1
+                #firewall-cmd --permanent --remove-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=udp port=53 accept" > /dev/null 2>&1
+                #firewall-cmd --permanent --remove-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=tcp port=80 accept" > /dev/null 2>&1
+                #firewall-cmd --permanent --remove-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=udp port=80 accept" > /dev/null 2>&1
+                #firewall-cmd --permanent --remove-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=tcp port=443 accept" > /dev/null 2>&1
+                #firewall-cmd --permanent --remove-rich-rule="rule family=ipv6 source address=${ipaddr}/32 port protocol=udp port=443 accept" > /dev/null 2>&1
+            }
         done
             firewall-cmd --reload > /dev/null 2>&1
             #firewall-cmd --list-rich-rules
