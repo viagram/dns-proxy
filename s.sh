@@ -291,7 +291,7 @@ function helper(){
     echo -e "   \033[33mdnsip all/list\033[0m"
 }
 
-rpm -q --quiet firewall && {
+! rpm -q --quiet firewall && {
     echo -e "\033[32m 正在安装防火墙 firewalld \033[0m"
     yum install -y firewalld
 }
