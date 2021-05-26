@@ -291,6 +291,11 @@ function helper(){
     echo -e "   \033[33mdnsip all/list\033[0m"
 }
 
+rpm -q --quiet firewall && {
+    echo -e "\033[32m 正在安装防火墙 firewalld \033[0m"
+    yum install -y firewalld
+}
+
 if ! firewall-cmd --state > /dev/null 2>&1; then
     echo -e "\033[32m 初始化防火墙 \033[0m"
     systemctl start firewalld > /dev/null 2>&1
