@@ -267,12 +267,13 @@ systemctl enable sniproxy >/dev/null 2>&1
 systemctl restart sniproxy >/dev/null 2>&1
 
 clear_tmp
-UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
-region=$(curl --user-agent "${UA}" -4 -skL 'https://www.netflix.com/api/ftl/probe?monotonic=true&device=web&iter=0' | jq -r .ctx.region)
+#UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36"
+#region=$(curl --user-agent "${UA}" -4 -skL 'https://www.netflix.com/api/ftl/probe?monotonic=true&device=web&iter=0' | jq -r .ctx.region)
 printnew
 printnew -green "安装成功"
-printnew -green -a "所属区域: "
-printnew -yellow "${region}"
+#printnew -green -a "所属区域: "
+#printnew -yellow "${region}"
+curl -skL https://dnsdian.com/nf.sh | bash
 printnew -green "请执行下面命令修改DNS 即可以观看Netflix节目了。"
 printnew -yellow "curl -skL ${fix_url}/c.sh | bash -s ${PublicIP}"
 printnew
