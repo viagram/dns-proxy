@@ -13,9 +13,9 @@ function Check_OS(){
     echo ${Text} | egrep -iq "debian[a-z /]*[0-9]{1,2}" && echo debian && return
     echo ${Text} | egrep -iq "Fedora[a-z ]*[0-9]{1,2}" && echo fedora && return
     echo ${Text} | egrep -iq "OpenWRT[a-z ]*" && echo openwrt && return
+    echo ${Text} | egrep -iq "ubuntu[[:space:]]*20\." && echo ubuntu20 && return
     echo ${Text} | egrep -iq "ubuntu" && echo ubuntu && return
 }
-
 
 function install(){
     zsph="/usr/bin/dnsctl"
