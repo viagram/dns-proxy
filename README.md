@@ -10,11 +10,11 @@
 
   服务端
 
-    curl -skL https://raw.githubusercontent.com/viagram/dns-proxy/master/s.sh | bash -s 
+    curl -skLo /tmp/dns-proxy-server.sh https://raw.githubusercontent.com/viagram/dns-proxy/master/s.sh && bash /tmp/dns-proxy-server.sh
 
   客户端
 
-    curl -skL https://raw.githubusercontent.com/viagram/dns-proxy/master/c.sh | bash -s 
+    curl -skLo /tmp/dns-proxy-client.sh https://raw.githubusercontent.com/viagram/dns-proxy/master/c.sh && bash /tmp/dns-proxy-client.sh
 
 
 按回车键即可.
